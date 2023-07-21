@@ -2,6 +2,8 @@
 
 import React, { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import axios from 'axios'
+
 import Input from "../input/Input";
 import Button from "@/app/components/button/Button";
 import AuthSocialButton from "../button/AuthSocialButton";
@@ -38,8 +40,9 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-    }
+      axios.post('/api/register', data)
 
+    }
     if (variant === "LOGIN") {
     }
   };
@@ -53,8 +56,8 @@ const AuthForm = () => {
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
             <Input
-              id="email"
-              label="Email"
+              id="name"
+              label="Tên tài khoản"
               register={register}
               errors={errors}
             />
@@ -62,6 +65,7 @@ const AuthForm = () => {
           <Input id="email" label="Email" register={register} errors={errors} />
           <Input
             id="password"
+            type="password"
             label="Mật khẩu"
             register={register}
             errors={errors}
