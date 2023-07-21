@@ -2,12 +2,15 @@
 
 import React, { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
-import axios from 'axios'
+import axios from "axios";
+
+import { signIn } from "next-auth/react";
 
 import Input from "../input/Input";
 import Button from "@/app/components/button/Button";
 import AuthSocialButton from "../button/AuthSocialButton";
 
+import { toast } from "react-hot-toast";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 
 type Variant = "LOGIN" | "REGISTER";
@@ -40,15 +43,56 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-      axios.post('/api/register', data)
+      axios
+        .post("/api/register", data)
+        .then(() =>
+          signIn("credentials", {
+            ...data,
+            redirect: false,
+          })
+        )
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Thông tin đăng nhập không hợp lệ");
+          }
 
+          // if (callback?.ok) {
+          //   router.push("/conversations");
+          // }
+        })
+        .catch(() => toast.error("Có gì đó sai sai!"))
+        .finally(() => setIsLoading(false));
     }
     if (variant === "LOGIN") {
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Thông tin đăng nhập không hợp lệ");
+          }
+
+          if (callback?.ok && !callback?.error) {
+            toast.success("Đăng nhập thành công!");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
   const socialAction = (action: string) => {
     setIsLoading(true);
+
+    signIn(action, { redirect: false }).then((callback) => {
+      if (callback?.error) {
+        toast.error("Thông tin đăng nhập không hợp lệ");
+      }
+
+      if (callback?.ok && !callback?.error) {
+        toast.success("Đăng nhập thành công!");
+      }
+    });
   };
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -99,9 +143,7 @@ const AuthForm = () => {
           </div>
         </div>
 
-        <div
-          className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500"
-        >
+        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
           <div>
             {variant === "LOGIN"
               ? "Lần đầu sử dụng Messenger?"

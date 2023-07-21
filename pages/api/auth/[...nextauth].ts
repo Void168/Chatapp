@@ -4,11 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { compare } from "bcrypt";
 
 import prisma from "@/app/libs/prismadb";
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -39,7 +39,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Thông tin đăng nhập không hợp lệ");
         }
 
-        const isCorrectPassword = await bcrypt.compare(
+        const isCorrectPassword = await compare(
           credentials.password,
           user.hashedPassword
         );
@@ -53,10 +53,11 @@ export const authOptions: AuthOptions = {
     }),
   ],
   debug: process.env.NODE_ENV === "development",
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-const handler = NextAuth(authOptions)
+export default NextAuth(authOptions);

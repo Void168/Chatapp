@@ -9,6 +9,16 @@ export async function POST(request: Request) {
 
     const { email, name, password } = body;
 
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (existingUser) {
+      return NextResponse.json({ error: "Email đã đăng ký" });
+    }
+
     if (!email || !name || !password) {
       return new NextResponse("Thiếu thông tin", { status: 400 });
     }
@@ -26,6 +36,6 @@ export async function POST(request: Request) {
     return NextResponse.json(user);
   } catch (error) {
     console.log(error, "Đăng ký thất bại");
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ error: `Có gì đó sai: ${error}` });
   }
 }
