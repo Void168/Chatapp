@@ -14,8 +14,8 @@ export default function Home() {
         />
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
           Đăng nhập vào tài khoản của bạn
-              </h2>
-              <AuthForm />
+        </h2>
+        <AuthForm />
       </div>
     </div>
   );
