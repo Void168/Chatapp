@@ -24,7 +24,7 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push('/users')
+      router.push("/conversations");
     }
   }, [session?.status, router]);
 
@@ -82,9 +82,9 @@ const AuthForm = () => {
             toast.error("Thông tin đăng nhập không hợp lệ");
           }
 
-          if (callback?.ok && !callback?.error) {
+          if (callback?.ok) {
             toast.success("Đăng nhập thành công!");
-            router.push('/users')
+            router.push("/conversations");
           }
         })
         .finally(() => setIsLoading(false));
