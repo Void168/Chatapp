@@ -9,7 +9,7 @@ const useConversation = () => {
       return "";
     }
 
-    return params?.conversationId as string;
+    return params.conversationId as string;
   }, [params?.conversationId]);
 
   const isOpen = useMemo(() => !!conversationId, [conversationId]);
@@ -23,4 +23,4 @@ const useConversation = () => {
   );
 };
 
-export default useConversation
+export default useConversation;

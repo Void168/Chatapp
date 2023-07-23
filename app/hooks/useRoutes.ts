@@ -1,11 +1,9 @@
+import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { HiChat } from "react-icons/hi";
 import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
-
 import { signOut } from "next-auth/react";
-
 import useConversation from "./useConversation";
-import { useMemo } from "react";
 
 const useRoutes = () => {
   const pathname = usePathname();
@@ -27,15 +25,15 @@ const useRoutes = () => {
       },
       {
         label: "Đăng xuất",
-        href: "/",
         onClick: () => signOut(),
+        href: "/",
         icon: HiArrowLeftOnRectangle,
       },
     ],
     [pathname, conversationId]
   );
-    
-    return routes
+
+  return routes;
 };
 
-export default useRoutes
+export default useRoutes;

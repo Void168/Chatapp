@@ -24,7 +24,7 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/conversations");
+      router.push("/users");
     }
   }, [session?.status, router]);
 
@@ -65,9 +65,9 @@ const AuthForm = () => {
             toast.error("Thông tin đăng nhập không hợp lệ");
           }
 
-          // if (callback?.ok) {
-          //   router.push("/conversations");
-          // }
+          if (callback?.ok) {
+            router.push("/users");
+          }
         })
         .catch(() => toast.error("Có gì đó sai sai!"))
         .finally(() => setIsLoading(false));
@@ -84,7 +84,7 @@ const AuthForm = () => {
 
           if (callback?.ok) {
             toast.success("Đăng nhập thành công!");
-            router.push("/conversations");
+            router.push("/users");
           }
         })
         .finally(() => setIsLoading(false));
@@ -94,15 +94,18 @@ const AuthForm = () => {
   const socialAction = (action: string) => {
     setIsLoading(true);
 
-    signIn(action, { redirect: false }).then((callback) => {
-      if (callback?.error) {
-        toast.error("Thông tin đăng nhập không hợp lệ");
-      }
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Thông tin đăng nhập không hợp lệ");
+        }
 
-      if (callback?.ok && !callback?.error) {
-        toast.success("Đăng nhập thành công!");
-      }
-    });
+        if (callback?.ok) {
+          toast.success("Đăng nhập thành công!");
+          router.push("/users");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
