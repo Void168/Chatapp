@@ -18,7 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
           fill
         />
       </div>
-      <span className="absolte block rounded-full bg-green-500 ring-2 ring-white top-0 right-0 h-2 w-2 md:h-3 md:w-3" />
+      <span className="absolute block rounded-full bg-green-500 ring-2 ring-white top-0 right-0 h-2 w-2 md:h-3 md:w-3" />
     </div>
   );
 };
