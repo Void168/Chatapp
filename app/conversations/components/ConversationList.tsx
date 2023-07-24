@@ -1,6 +1,14 @@
-interface ConversationsListProps {}
+'use client'
 
-const ConversationsList: React.FC<ConversationsListProps> = () => {
+import { Conversation } from "@prisma/client";
+
+interface ConversationsListProps {
+    initialItems: Conversation[]
+ }
+
+const ConversationsList: React.FC<ConversationsListProps> = ({
+  initialItems,
+}) => {
   return <div></div>;
 };
 
