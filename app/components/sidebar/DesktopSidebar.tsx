@@ -8,6 +8,9 @@ import DesktopItem from "./DesktopItem";
 
 import { User } from "@prisma/client";
 import Avatar from "../Avatar";
+import { signOut } from "next-auth/react";
+import { HiArrowLeftOnRectangle } from "react-icons/hi2";
+import clsx from "clsx";
 
 interface DesktopSidebarProps {
   currentUser: User;
@@ -28,13 +31,23 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
               label={item.label}
               icon={item.icon}
               active={item.active}
-              onClick={item.onClick}
             />
           ))}
+          <button className="w-full h-full"></button>
+          <li
+            onClick={() => signOut()}
+            className="group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold text-gray-500 hover:text-black hover:bg-gray-100 cursor-pointer"
+          >
+            <HiArrowLeftOnRectangle className="h-6 w-6 shrink-0" />
+            <span className="sr-only">Đăng xuất</span>
+          </li>
         </ul>
       </nav>
       <nav className="mt-4 flex flex-col justify-center items-center">
-        <div onClick={() => setIsOpen(true)} className="cursor-pointer hover:opacity-75 transition">
+        <div
+          onClick={() => setIsOpen(true)}
+          className="cursor-pointer hover:opacity-75 transition"
+        >
           <Avatar user={currentUser} />
         </div>
       </nav>

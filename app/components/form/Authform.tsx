@@ -17,96 +17,98 @@ import { useRouter } from "next/navigation";
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
-  const session = useSession()
-  const router = useRouter()
-  const [variant, setVariant] = useState<Variant>("LOGIN");
-  const [isLoading, setIsLoading] = useState(false);
+    const session = useSession()
+    const router = useRouter()
+    const [variant, setVariant] = useState<Variant>("LOGIN");
+    const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/users");
-    }
-  }, [session?.status, router]);
+    useEffect(() => {
+      if (session?.status === "authenticated") {
+        router.push("/conversations");
+      }
+    }, [session?.status, router]);
 
-  const toggleVariant = useCallback(() => {
-    if (variant === "LOGIN") {
-      setVariant("REGISTER");
-    } else {
-      setVariant("LOGIN");
-    }
-  }, [variant]);
+    const toggleVariant = useCallback(() => {
+      if (variant === "LOGIN") {
+        setVariant("REGISTER");
+      } else {
+        setVariant("LOGIN");
+      }
+    }, [variant]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
-  });
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<FieldValues>({
+      defaultValues: {
+        name: "",
+        email: "",
+        password: "",
+      },
+    });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+      setIsLoading(true);
 
-    if (variant === "REGISTER") {
-      axios
-        .post("/api/register", data)
-        .then(() =>
-          signIn("credentials", {
-            ...data,
-            redirect: false,
+      if (variant === "REGISTER") {
+        axios
+          .post("/api/register", data)
+          .then(() =>
+            signIn("credentials", {
+              ...data,
+              redirect: false,
+            })
+          )
+          .then((callback) => {
+            if (callback?.error) {
+              toast.error("Thông tin đăng nhập không hợp lệ!");
+            }
+
+            if (callback?.ok) {
+              router.push("/conversations");
+            }
           })
-        )
-        .then((callback) => {
-          if (callback?.error) {
-            toast.error("Thông tin đăng nhập không hợp lệ");
-          }
+          .catch(() => toast.error("Có gì đó sai sai!"))
+          .finally(() => setIsLoading(false));
+      }
 
-          if (callback?.ok) {
-            router.push("/users");
-          }
+      if (variant === "LOGIN") {
+        signIn("credentials", {
+          ...data,
+          redirect: false,
         })
-        .catch(() => toast.error("Có gì đó sai sai!"))
-        .finally(() => setIsLoading(false));
-    }
-    if (variant === "LOGIN") {
-      signIn("credentials", {
-        ...data,
-        redirect: false,
-      })
+          .then((callback) => {
+            if (callback?.error) {
+              toast.error("Thông tin đăng nhập không hợp lệ");
+            }
+
+            if (callback?.ok) {
+              toast.success("Đăng nhập thành công!");
+              router.push("/conversations");
+            }
+          })
+          .finally(() => setIsLoading(false));
+      }
+    };
+
+    const socialAction = (action: string) => {
+      setIsLoading(true);
+
+      signIn(action, { redirect: false })
         .then((callback) => {
           if (callback?.error) {
-            toast.error("Thông tin đăng nhập không hợp lệ");
+            toast.error("Thông tin đăng nhập không hợp lệ!");
           }
 
           if (callback?.ok) {
             toast.success("Đăng nhập thành công!");
-            router.push("/users");
+            router.push("/conversations");
           }
         })
         .finally(() => setIsLoading(false));
-    }
-  };
-
-  const socialAction = (action: string) => {
-    setIsLoading(true);
-
-    signIn(action, { redirect: false })
-      .then((callback) => {
-        if (callback?.error) {
-          toast.error("Thông tin đăng nhập không hợp lệ");
-        }
-
-        if (callback?.ok) {
-          toast.success("Đăng nhập thành công!");
-          router.push("/users");
-        }
-      })
-      .finally(() => setIsLoading(false));
-  };
+  }; 
+  
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">

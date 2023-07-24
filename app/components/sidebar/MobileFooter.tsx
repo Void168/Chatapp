@@ -3,6 +3,8 @@
 import useConversation from "@/app/hooks/useConversation";
 import useRoutes from "@/app/hooks/useRoutes";
 import MobileItem from "./MobileItem";
+import { HiArrowLeftOnRectangle } from "react-icons/hi2";
+import { signOut } from "next-auth/react";
 
 const MobileFooter = () => {
   const routes = useRoutes();
@@ -19,9 +21,15 @@ const MobileFooter = () => {
           href={route.href}
           active={route.active}
           icon={route.icon}
-          onClick={route.onClick}
         />
       ))}
+      <div
+        onClick={() => signOut()}
+        className="group flex gap-x-3 text-sm leading-6 font-semibold w-full justify-center p-4 text-gray-500 hover:text-black hover:bg-gray-100 cursor-pointer"
+      >
+        <HiArrowLeftOnRectangle className="h-6 w-6 shrink-0" />
+        <span className="sr-only">Đăng xuất</span>
+      </div>
     </div>
   );
 };
