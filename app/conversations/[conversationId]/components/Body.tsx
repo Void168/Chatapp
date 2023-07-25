@@ -5,7 +5,7 @@ interface BodyProps {
 }
  
 const Body: React.FunctionComponent<BodyProps> = () => {
-    return ( <div>Body</div> );
+    return ( <div className="flex-1 overflow-y-auto">Body</div> );
 }
  
 export default Body;
