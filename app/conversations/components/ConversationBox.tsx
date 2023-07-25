@@ -52,7 +52,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
   const lastMessageText = useMemo(() => {
     if (lastMessage?.image) {
-      return "Đã gửi";
+      return "Đã gửi một ảnh";
     }
 
     if (lastMessage?.body) {
@@ -66,14 +66,14 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     <div
       onClick={handleClick}
       className={clsx(
-        `w-full relative flex items-center space-x-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer`,
+        `w-full relative flex items-center space-x-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer px-2 py-3`,
         selected ? "bg-neutral-100" : "bg-white"
       )}
     >
       <Avatar user={otherUser} />
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
-          <div className="flex justify-start items-start mb-1">
+          <div className="flex justify-between mb-1">
             <p className="text-md font-medium text-gray-900">
               {data.name || otherUser.name}
             </p>
