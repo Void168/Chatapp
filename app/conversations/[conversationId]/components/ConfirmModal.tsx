@@ -18,7 +18,8 @@ interface ConfirmModalProps {
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
-  const { conversationId } = useConversation();
+    const { conversationId } = useConversation();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const onDelete = useCallback(() => {
@@ -28,7 +29,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
       .delete(`/api/conversations/${conversationId}`)
       .then(() => {
         onClose();
-        router.push("/converstions");
+        router.push("/conversations");
         router.refresh();
       })
       .catch(() => toast.error("Có gì đó sai sai"))
