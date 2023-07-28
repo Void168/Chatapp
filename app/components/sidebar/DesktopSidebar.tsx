@@ -7,7 +7,7 @@ import { useState } from "react";
 import DesktopItem from "./DesktopItem";
 
 import { User } from "@prisma/client";
-import Avatar from "../Avatar";
+import Avatar from "../avatar/Avatar";
 import { signOut } from "next-auth/react";
 import { HiArrowLeftOnRectangle } from "react-icons/hi2";
 import clsx from "clsx";

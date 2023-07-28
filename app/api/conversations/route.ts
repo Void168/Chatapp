@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    if (!isGroup && (!members || members.length < 2 || !name)) {
+    if (isGroup && (!members || members.length < 2 || !name) || !isGroup ) {
       return new NextResponse("Invalid data", { status: 400 });
     }
 
