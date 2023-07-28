@@ -1,7 +1,7 @@
 "use client";
 
 import Avatar from "@/app/components/Avatar";
-import Modal from "@/app/components/Modal";
+import Modal from "@/app/components/modals/Modal";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import { Transition, Dialog } from "@headlessui/react";
 import { Conversation, User } from "@prisma/client";

@@ -1,6 +1,6 @@
 "use client";
 
-import Modal from "@/app/components/Modal";
+import Modal from "@/app/components/modals/Modal";
 import Button from "@/app/components/button/Button";
 import useConversation from "@/app/hooks/useConversation";
 import { Dialog } from "@headlessui/react";

@@ -28,6 +28,7 @@ const Select: React.FunctionComponent<SelectProps> = ({
           value={value}
           onChange={onChange}
           isMulti
+          placeholder="Chọn người tham gia"
           options={options}
           menuPortalTarget={document.body}
           styles={{

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import { MdOutlineGroupAdd } from "react-icons/md";
 import ConversationBox from "./ConversationBox";
-import GroupChatModal from "./GroupChatModal";
+import GroupChatModal from "../../components/modals/GroupChatModal";
 import { User } from "@prisma/client";
 
 interface ConversationsListProps {

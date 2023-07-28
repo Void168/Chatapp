@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    if (isGroup && (!members || members.length < 2 || !name)) {
+    if (!isGroup && (!members || members.length < 2 || !name)) {
       return new NextResponse("Invalid data", { status: 400 });
     }
 
@@ -38,6 +38,7 @@ export async function POST(request: Request) {
           users: true,
         },
       });
+
       return NextResponse.json(newConversation);
     }
 

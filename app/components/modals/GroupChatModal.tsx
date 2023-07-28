@@ -1,12 +1,14 @@
 "use client";
 
-import Modal from "@/app/components/Modal";
+import Modal from "@/app/components/modals/Modal";
+import Button from "@/app/components/button/Button";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/input/Select";
+
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -19,7 +21,7 @@ interface GroupChatModalProps {
 const GroupChatModal: React.FunctionComponent<GroupChatModalProps> = ({
   isOpen,
   onClose,
-  users,
+  users = [],
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +71,7 @@ const GroupChatModal: React.FunctionComponent<GroupChatModalProps> = ({
               <Input
                 register={register}
                 label="Tên nhóm"
-                id="Name"
+                id="name"
                 disabled={isLoading}
                 required
                 errors={errors}
@@ -82,12 +84,27 @@ const GroupChatModal: React.FunctionComponent<GroupChatModalProps> = ({
                   label: user.name,
                 }))}
                 onChange={(value) =>
-                  setValue("thành viên", value, { shouldValidate: true })
+                  setValue("members", value, {
+                    shouldValidate: true,
+                  })
                 }
                 value={members}
               />
             </div>
           </div>
+        </div>
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <Button
+            disabled={isLoading}
+            onClick={onClose}
+            type="button"
+            secondary
+          >
+            Hủy bỏ
+          </Button>
+          <Button disabled={isLoading} type="submit">
+            Tạo nhóm chat
+          </Button>
         </div>
       </form>
     </Modal>
