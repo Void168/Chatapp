@@ -4,10 +4,25 @@ import Avatar from "@/app/components/avatar/Avatar";
 import { FullMessageType } from "@/app/types";
 import clsx from "clsx";
 import { format } from "date-fns";
+import vi from "date-fns/locale/vi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import ImageModal from "./modal/ImageModal";
+import { isYesterday } from "date-fns/esm";
+
+
+const MILI_SECONDS_PER_DAY: number = 86400 * 1000;
+
+enum Days {
+  "Chủ Nhật",
+  "Thứ Hai",
+  "Thứ Ba",
+  "Thứ Tư",
+  "Thứ Năm",
+  "Thứ Sáu",
+  "Thứ Bảy",
+}
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -36,6 +51,47 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
     data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
   );
 
+  function getToday<T>(type: T, day: number): T[keyof T] {
+    const casted = day as keyof T;
+    return type[casted];
+  }
+
+  let day = new Date(data.createdAt).getDay();
+
+  let dayDistance =
+    (new Date().getTime() - new Date(data.createdAt).getTime()) /
+    MILI_SECONDS_PER_DAY;
+
+  const formatDate = (time: string) => {
+    if (isYesterday(new Date(data.createdAt))) {
+      return (time = `Hôm qua ${format(new Date(data.createdAt), "p", {
+        locale: vi,
+      })}`);
+    }
+    if (dayDistance > 1) {
+      return (time = `${getToday(Days, day)} ${format(
+        new Date(data.createdAt),
+        "p",
+        {
+          locale: vi,
+        }
+      )}`);
+    }
+    if (dayDistance > 7) {
+      return (time = `${format(new Date(data.createdAt), "dd/MM", {
+        locale: vi,
+      })}`);
+    }
+    if (dayDistance > 365) {
+      return (time = `${format(new Date(data.createdAt), "dd/MM/YYYY", {
+        locale: vi,
+      })}`);
+    }
+    return format(new Date(data.createdAt), "p", {
+      locale: vi,
+    });
+  };
+
   return (
     <div className={container}>
       <div className={avatar}>
@@ -47,7 +103,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
             {data.sender.name}
           </div>
           <div className="text-xs text-gray-400">
-            {format(new Date(data.createdAt), "p")}
+            {formatDate(new Date(data.createdAt).toString())}
           </div>
         </div>
         <div className={message}>
