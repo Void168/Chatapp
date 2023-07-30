@@ -23,6 +23,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "lodash": "^4.17.21",
     "next": "13.4.10",
     "next-auth": "^4.22.3",
     "next-cloudinary": "^4.16.2",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/lodash": "^4.14.196",
     "prisma": "^5.0.0"
   }
 }
