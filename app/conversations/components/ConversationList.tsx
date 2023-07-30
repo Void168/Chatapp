@@ -68,13 +68,17 @@ const ConversationsList: React.FC<ConversationsListProps> = ({
 
     const removeHandler = (conversation: FullConversationType) => {
       setItems((current) => {
-        return [...current.filter((cv) => cv.id !== conversation.id)]
-      })
-    }
+        return [...current.filter((cv) => cv.id !== conversation.id)];
+      });
+
+      if (conversationId === conversation.id) {
+        router.push("/conversations");
+      }
+    };
 
     pusherClient.bind("conversation:new", newHandler);
     pusherClient.bind("conversation:update", updateHandler);
-    pusherClient.bind("conversation:remove", removeHandler)
+    pusherClient.bind("conversation:remove", removeHandler);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
@@ -82,7 +86,7 @@ const ConversationsList: React.FC<ConversationsListProps> = ({
       pusherClient.unbind("conversation:update", updateHandler);
       pusherClient.unbind("conversation:remove", removeHandler);
     };
-  }, [pusherKey]);
+  }, [pusherKey, conversationId, router]);
   return (
     <>
       <GroupChatModal
