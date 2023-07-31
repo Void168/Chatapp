@@ -82,21 +82,21 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     return type[casted];
   }
 
-  let day = new Date(lastMessage.createdAt).getDay();
+  let day = new Date(lastMessage?.createdAt).getDay();
 
   let dayDistance =
-    (new Date().getTime() - new Date(lastMessage.createdAt).getTime()) /
+    (new Date().getTime() - new Date(lastMessage?.createdAt).getTime()) /
     MILI_SECONDS_PER_DAY;
 
   const formatDate = (time: string) => {
-    if (isYesterday(new Date(lastMessage.createdAt))) {
-      return (time = `Hôm qua ${format(new Date(lastMessage.createdAt), "p", {
+    if (isYesterday(new Date(lastMessage?.createdAt))) {
+      return (time = `Hôm qua ${format(new Date(lastMessage?.createdAt), "p", {
         locale: vi,
       })}`);
     }
     if (dayDistance > 1) {
       return (time = `${getToday(Days, day)} ${format(
-        new Date(lastMessage.createdAt),
+        new Date(lastMessage?.createdAt),
         "p",
         {
           locale: vi,
@@ -104,16 +104,16 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       )}`);
     }
     if (dayDistance > 7) {
-      return (time = `${format(new Date(lastMessage.createdAt), "dd/MM", {
+      return (time = `${format(new Date(lastMessage?.createdAt), "dd/MM", {
         locale: vi,
       })}`);
     }
     if (dayDistance > 365) {
-      return (time = `${format(new Date(lastMessage.createdAt), "dd/MM/YYYY", {
+      return (time = `${format(new Date(lastMessage?.createdAt), "dd/MM/YYYY", {
         locale: vi,
       })}`);
     }
-    return format(new Date(lastMessage.createdAt), "p", {
+    return format(new Date(lastMessage?.createdAt), "p", {
       locale: vi,
     });
   };
@@ -138,7 +138,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
               {data.name || otherUser.name}
             </p>
             {lastMessage?.createdAt && (
-              <p className="text-xs text-gray-400 font-light">{formatDate(lastMessage.createdAt.toString())}</p>
+              <p className="text-xs text-gray-400 font-light">{formatDate(lastMessage?.createdAt.toString())}</p>
             )}
           </div>
           <div className="flex justify-between">
