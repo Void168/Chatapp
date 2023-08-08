@@ -6,9 +6,9 @@ import axios from "axios";
 
 import { signIn, useSession } from "next-auth/react";
 
-import Input from "../input/Input";
+import Input from "../../components/input/Input";
 import Button from "@/app/components/button/Button";
-import AuthSocialButton from "../button/AuthSocialButton";
+import AuthSocialButton from "../../components/button/AuthSocialButton";
 
 import { toast } from "react-hot-toast";
 import { BsGithub, BsGoogle } from "react-icons/bs";
