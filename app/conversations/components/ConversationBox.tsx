@@ -89,33 +89,27 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     MILI_SECONDS_PER_DAY;
 
   const formatDate = (time: string) => {
-    if (isYesterday(new Date(lastMessage?.createdAt))) {
-      return (time = `Hôm qua ${format(new Date(lastMessage?.createdAt), "p", {
+    if (isYesterday(new Date(data.createdAt))) {
+      return (time = `Hôm qua ${format(new Date(data.createdAt), "p", {
         locale: vi,
       })}`);
     }
-    if (dayDistance > 1) {
-      return (time = `${getToday(Days, day)} ${format(
-        new Date(lastMessage?.createdAt),
-        "p",
-        {
-          locale: vi,
-        }
-      )}`);
-    }
-    if (dayDistance > 7) {
-      return (time = `${format(new Date(lastMessage?.createdAt), "dd/MM", {
+    if (dayDistance > 1 && dayDistance < 7) {
+      time = `${getToday(Days, day)} ${format(new Date(data.createdAt), "p", {
         locale: vi,
-      })}`);
+      })}`;
+    }
+    if (dayDistance > 7 && dayDistance < 365) {
+      time = `${format(new Date(data.createdAt), "dd/MM", {
+        locale: vi,
+      })}`;
     }
     if (dayDistance > 365) {
-      return (time = `${format(new Date(lastMessage?.createdAt), "dd/MM/YYYY", {
+      time = `${format(new Date(data.createdAt), "dd/MM/YYYY", {
         locale: vi,
-      })}`);
+      })}`;
     }
-    return format(new Date(lastMessage?.createdAt), "p", {
-      locale: vi,
-    });
+    return time;
   };
 
   return (

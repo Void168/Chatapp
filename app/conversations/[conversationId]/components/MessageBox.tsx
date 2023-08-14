@@ -68,28 +68,26 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
         locale: vi,
       })}`);
     }
-    if (dayDistance > 1) {
-      return (time = `${getToday(Days, day)} ${format(
+    if (dayDistance > 1 && dayDistance < 7) {
+      time = `${getToday(Days, day)} ${format(
         new Date(data.createdAt),
         "p",
         {
           locale: vi,
         }
-      )}`);
+      )}`;
     }
-    if (dayDistance > 7) {
-      return (time = `${format(new Date(data.createdAt), "dd/MM", {
+    if (dayDistance > 7 && dayDistance < 365) {
+      time = `${format(new Date(data.createdAt), "dd/MM", {
         locale: vi,
-      })}`);
+      })}`;
     }
     if (dayDistance > 365) {
-      return (time = `${format(new Date(data.createdAt), "dd/MM/YYYY", {
+      time = `${format(new Date(data.createdAt), "dd/MM/YYYY", {
         locale: vi,
-      })}`);
+      })}`;
     }
-    return format(new Date(data.createdAt), "p", {
-      locale: vi,
-    });
+    return time;
   };
 
   return (
